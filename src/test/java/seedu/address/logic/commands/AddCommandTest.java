@@ -70,7 +70,7 @@ public class AddCommandTest {
 
     @Test
     public void execute_duplicatePetDifferentAppointment_throwsCommandException() {
-        Pet validPet = new PetBuilder().withAppointment("05-05-2022 09:00", "NUS Vet Clinic").build();
+        Pet validPet = new PetBuilder().withAppointment("05-05-2022", "09:00", "NUS Vet Clinic").build();
         AddCommand addCommand = new AddCommand(new PetBuilder().build());
         ModelStub modelStub = new ModelStubWithPet(validPet);
 

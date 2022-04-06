@@ -3,7 +3,6 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -132,22 +131,62 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String dateTime} into an {@code LocalDateTime}.
+     * Parses a {@code String dateTime} into an {@code LocalDate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @param dateTime Date and time in String format of dd-MM-yyyy HH:mm.
-     * @return Parsed LocalDateTime representation of input.
-     * @throws ParseException if the given {@code dateTime} is invalid.
+     * @param dateTime Date in String format of dd-MM-yyyy HH:mm.
+     * @return Parsed LocalDate representation of input.
+     * @throws ParseException if the given {@code date} is invalid.
      */
-    public static LocalDateTime parseAppointmentDateTime(String dateTime) throws ParseException {
+    public static LocalDate parseAppointmentDate(String dateTime) throws ParseException {
         requireNonNull(dateTime);
         String trimmedDateTime = dateTime.trim();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String trimmedDate;
+
         try {
-            return LocalDateTime.parse(trimmedDateTime, formatter);
+            trimmedDate = trimmedDateTime.split(" ")[0];
         } catch (Exception e) {
-            throw new ParseException("Appointment date and time should be entered in dd-MM-yyyy HH:mm format!");
+            throw new ParseException("Missing date/time!");
         }
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        try {
+            return LocalDate.parse(trimmedDate, dateFormat);
+        } catch (Exception e) {
+            throw new ParseException("Appointment date should be entered in dd-MM-yyyy format!");
+        }
+
+    }
+
+    /**
+     * Parses a {@code String dateTime} into an {@code LocalTime}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @param dateTime Date in String format of dd-MM-yyyy HH:mm.
+     * @return Parsed LocalTime representation of input.
+     * @throws ParseException if the given {@code time} is invalid.
+     */
+    public static LocalTime parseAppointmentTime(String dateTime) throws ParseException {
+        requireNonNull(dateTime);
+        String trimmedDateTime = dateTime.trim();
+        String trimmedTime;
+
+        try {
+            trimmedTime = trimmedDateTime.split(" ")[1];
+        } catch (Exception e) {
+            throw new ParseException("Missing date/time!");
+        }
+
+
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
+
+        try {
+            return LocalTime.parse(trimmedTime, timeFormat);
+        } catch (Exception e) {
+            throw new ParseException("Appointment time should be entered in HH:mm format!");
+        }
+
     }
 
     /**

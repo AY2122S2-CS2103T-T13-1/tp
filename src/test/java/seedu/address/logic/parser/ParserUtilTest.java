@@ -7,7 +7,6 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PET;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -204,14 +203,6 @@ public class ParserUtilTest {
         LocalDate expectedLocalDate = LocalDate.parse("22-03-2022", formatter);
         assertEquals(ParserUtil.parseAttendanceDate("22-03-2022"), expectedLocalDate);
         assertThrows(ParseException.class, () -> ParserUtil.parseAttendanceDate("2022-03-22"));
-    }
-
-    @Test
-    public void parseAppointmentDateTime_returnsLocalDateTime() throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        LocalDateTime expectedLocalDateTime = LocalDateTime.parse("22-03-2022 09:00", formatter);
-        assertEquals(ParserUtil.parseAppointmentDateTime("22-03-2022 09:00"), expectedLocalDateTime);
-        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDateTime("2022-03-22 0830"));
     }
 
     @Test

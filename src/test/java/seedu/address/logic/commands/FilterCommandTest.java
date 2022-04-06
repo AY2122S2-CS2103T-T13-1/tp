@@ -33,7 +33,8 @@ public class FilterCommandTest {
     private static final String DATE_STUB = LocalDate.now().toString();
     private static final String PICKUP_TIME_STUB = "09:00";
     private static final String DROPOFF_TIME_STUB = "17:30";
-    private static final String APPOINTMENT_DATE_TIME_STUB = "02-04-2022 09:30";
+    private static final String APPOINTMENT_DATE_STUB = "02-04-2022";
+    private static final String APPOINTMENT_TIME_STUB = "09:30";
     private static final String APPOINTMENT_LOCATION_STUB = "NUS Vet Clinic";
     private static final String PARSE_EX_THROWN_MESSAGE = "Should not have thrown parse exception.";
     private static final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -269,11 +270,11 @@ public class FilterCommandTest {
     public static void setApp() {
         Pet firstPet = model.getFilteredPetList().get(INDEX_FIRST_PET.getZeroBased());
         Pet firstPetSetTag = new PetBuilder(firstPet)
-                .withAppointment(APPOINTMENT_DATE_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
+                .withAppointment(APPOINTMENT_DATE_STUB, APPOINTMENT_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
 
         Pet secondPet = model.getFilteredPetList().get(INDEX_THIRD_PET.getZeroBased());
         Pet secondPetSetTag = new PetBuilder(secondPet)
-                .withAppointment(APPOINTMENT_DATE_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
+                .withAppointment(APPOINTMENT_DATE_STUB, APPOINTMENT_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
 
         model.setPet(firstPet, firstPetSetTag);
         model.setPet(secondPet, secondPetSetTag);

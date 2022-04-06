@@ -20,7 +20,7 @@ public class AppointmentLabel {
         requireNonNull(appointment);
         Label appLabel = new Label();
 
-        if (appointment.getDateTime() == null) {
+        if (appointment.getDate() == null && appointment.getTime() == null) {
             return appLabel;
         }
         appLabel.setText(LABEL);

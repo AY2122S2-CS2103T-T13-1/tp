@@ -1,7 +1,6 @@
 package seedu.address.model.filter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -29,9 +28,8 @@ public class AppointmentContainsFilterWordPredicate extends FilterByContainsFilt
     @Override
     public boolean test(Pet pet) {
         Appointment petAppointment = pet.getAppointment();
-        LocalDateTime petAppointmentDateTime = petAppointment.getDateTime();
-        if (petAppointmentDateTime != null) {
-            LocalDate petAppointmentDate = petAppointmentDateTime.toLocalDate();
+        LocalDate petAppointmentDate = petAppointment.getDate();
+        if (petAppointmentDate != null) {
             return petAppointmentDate.equals(this.appointmentDate);
         }
         return false;

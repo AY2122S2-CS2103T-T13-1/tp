@@ -1,7 +1,6 @@
 package seedu.address.testutil;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -127,10 +126,12 @@ public class PetBuilder {
     /**
      * Sets the {@code Appointment} of the {@code Pet} that we are building with the input.
      */
-    public PetBuilder withAppointment(String dateTime, String location) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        LocalDateTime formattedDateTime = LocalDateTime.parse(dateTime, formatter);
-        this.appointment = new Appointment(formattedDateTime, location);
+    public PetBuilder withAppointment(String date, String time, String location) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalDate formattedDate = LocalDate.parse(date, dateFormatter);
+        LocalTime formattedTime = LocalTime.parse(time, timeFormatter);
+        this.appointment = new Appointment(formattedDate, formattedTime, location);
         return this;
     }
 

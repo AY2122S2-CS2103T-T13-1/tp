@@ -12,8 +12,8 @@ import seedu.address.testutil.PetBuilder;
 public class AppointmentContainsFilterWordPredicateTest {
 
     private static final String PARSE_EX_THROWN_MESSAGE = "Should not have thrown parse exception.";
-    private static final String DATETIME_STUB = "22-03-2022 09:00";
     private static final String DATE_STUB = "22-03-2022";
+    private static final String TIME_STUB = "09:00";
     private static final String TODAY_LOCAL_DATE_STUB = "today";
     private static final String LOCATION_STUB = "NUS VET";
 
@@ -51,7 +51,7 @@ public class AppointmentContainsFilterWordPredicateTest {
         try {
             AppointmentContainsFilterWordPredicate predicate =
                     new AppointmentContainsFilterWordPredicate(DATE_STUB);
-            assertTrue(predicate.test(new PetBuilder().withAppointment(DATETIME_STUB, LOCATION_STUB).build()));
+            assertTrue(predicate.test(new PetBuilder().withAppointment(DATE_STUB, TIME_STUB, LOCATION_STUB).build()));
         } catch (ParseException e) {
             fail(PARSE_EX_THROWN_MESSAGE);
         }
@@ -63,7 +63,7 @@ public class AppointmentContainsFilterWordPredicateTest {
             // With appointment
             AppointmentContainsFilterWordPredicate predicate =
                     new AppointmentContainsFilterWordPredicate(TODAY_LOCAL_DATE_STUB);
-            assertFalse(predicate.test(new PetBuilder().withAppointment(DATETIME_STUB, LOCATION_STUB).build()));
+            assertFalse(predicate.test(new PetBuilder().withAppointment(DATE_STUB, TIME_STUB, LOCATION_STUB).build()));
 
             // Empty appointment
             assertFalse((predicate.test(new PetBuilder().build())));

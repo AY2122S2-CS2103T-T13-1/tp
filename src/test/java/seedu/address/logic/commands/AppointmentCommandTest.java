@@ -25,7 +25,8 @@ import seedu.address.testutil.PetBuilder;
 
 class AppointmentCommandTest {
 
-    private static final String APPOINTMENT_DATE_TIME_STUB = "02-04-2022 09:30";
+    private static final String APPOINTMENT_DATE_STUB = "02-04-2022";
+    private static final String APPOINTMENT_TIME_STUB = "09:30";
     private static final String APPOINTMENT_LOCATION_STUB = "NUS Vet Clinic";
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -34,12 +35,14 @@ class AppointmentCommandTest {
     public void execute_addAppointmentUnfilteredList_success() {
         Pet firstPerson = model.getFilteredPetList().get(INDEX_FIRST_PET.getZeroBased());
         Pet editedPerson = new PetBuilder(firstPerson)
-                .withAppointment(APPOINTMENT_DATE_TIME_STUB,
+                .withAppointment(APPOINTMENT_DATE_STUB,
+                        APPOINTMENT_TIME_STUB,
                         APPOINTMENT_LOCATION_STUB).build();
 
         AppointmentCommand appointmentCommand =
                 new AppointmentCommand(INDEX_FIRST_PET,
-                        new Appointment(editedPerson.getAppointment().getDateTime(),
+                        new Appointment(editedPerson.getAppointment().getDate(),
+                                editedPerson.getAppointment().getTime(),
                                 editedPerson.getAppointment().getLocation()));
 
         String expectedMessage = String.format(AppointmentCommand.MESSAGE_ADD_APPOINTMENT_SUCCESS, editedPerson);
@@ -72,10 +75,11 @@ class AppointmentCommandTest {
 
         Pet firstPerson = model.getFilteredPetList().get(INDEX_FIRST_PET.getZeroBased());
         Pet editedPerson = new PetBuilder(model.getFilteredPetList().get(INDEX_FIRST_PET.getZeroBased()))
-                .withAppointment(APPOINTMENT_DATE_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
+                .withAppointment(APPOINTMENT_DATE_STUB, APPOINTMENT_TIME_STUB, APPOINTMENT_LOCATION_STUB).build();
 
         AppointmentCommand appointmentCommand = new AppointmentCommand(INDEX_FIRST_PET,
-                new Appointment(editedPerson.getAppointment().getDateTime(),
+                new Appointment(editedPerson.getAppointment().getDate(),
+                        editedPerson.getAppointment().getTime(),
                         editedPerson.getAppointment().getLocation()));
 
         String expectedMessage = String.format(AppointmentCommand.MESSAGE_ADD_APPOINTMENT_SUCCESS, editedPerson);

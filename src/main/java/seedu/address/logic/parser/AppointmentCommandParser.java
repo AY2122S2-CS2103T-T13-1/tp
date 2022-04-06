@@ -6,7 +6,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT_DATE_TIME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_APPOINTMENT_LOCATION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLEAR;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
@@ -45,10 +46,13 @@ public class AppointmentCommandParser implements Parser<AppointmentCommand> {
             Appointment clearAppointment = new Appointment();
             return new AppointmentCommand(index, clearAppointment);
         } else if (areDateTimeAndLocationPresent && !isClearPresent) {
-            LocalDateTime dateTime = ParserUtil.parseAppointmentDateTime(
+            LocalDate date = ParserUtil.parseAppointmentDate(
+                    argMultimap.getValue(PREFIX_APPOINTMENT_DATE_TIME).get());
+            LocalTime time = ParserUtil.parseAppointmentTime(
                     argMultimap.getValue(PREFIX_APPOINTMENT_DATE_TIME).get());
             String location = argMultimap.getValue(PREFIX_APPOINTMENT_LOCATION).get();
-            Appointment appointment = new Appointment(dateTime, location);
+
+            Appointment appointment = new Appointment(date, time, location);
             return new AppointmentCommand(index, appointment);
         } else {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,

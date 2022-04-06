@@ -3,7 +3,6 @@ package seedu.address.ui;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javafx.scene.control.Label;
 import seedu.address.model.pet.Appointment;
@@ -29,11 +28,10 @@ public class AppointmentInfoLabel {
 
         Label appLabel = new Label();
 
-        if (appointment.getDateTime() == null) {
+        if (appointment.getDate() == null) {
             return appLabel;
         } else {
-            LocalDateTime appDateTime = appointment.getDateTime();
-            LocalDate appDate = appDateTime.toLocalDate();
+            LocalDate appDate = appointment.getDate();
             appLabel.setText(appointment.toString());
             if (appDate.equals(NOW)) {
                 appLabel.setStyle(APPOINTMENT_TODAY_STYLE);

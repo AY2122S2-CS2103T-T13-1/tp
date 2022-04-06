@@ -3,7 +3,9 @@ package seedu.address.model.pet;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -18,9 +20,13 @@ public class Appointment implements Comparable<Appointment> {
             "\\w{3}-\\d{2}-\\d{4} \\d{2}:\\d{2} \\w{2} \\w+(\\s\\w+){1,}";
 
     /** Date and time of appointment in "dd-MM-yyyy HH:mm" format.*/
+    public final LocalDate date;
+    public final LocalTime time;
     public final LocalDateTime dateTime;
+
     /** Location of appointment.*/
     public final String location;
+
     /**
      * Appointment details comprising information from dateTime and location.
      * Format of value: dateTime + " at " + location. To be reflected in GUI.
@@ -29,14 +35,17 @@ public class Appointment implements Comparable<Appointment> {
 
     /**
      * Constructs an {@code Appointment} from the user input details.
-     * @param dateTime in LocalDateTime format.
+     * @param date in LocalDate format.
+     * @param time in LocalTime format.
      * @param location of appointment.
      */
-    public Appointment(LocalDateTime dateTime, String location) {
-        requireAllNonNull(dateTime, location);
-        this.dateTime = dateTime;
+    public Appointment(LocalDate date, LocalTime time, String location) {
+        requireAllNonNull(date, time, location);
+        this.date = date;
+        this.time = time;
+        this.dateTime = date.atTime(time);
         this.location = location;
-        this.value = formatDateTime(dateTime) + " at " + location;
+        this.value = formatDateTime(date, time) + " at " + location;
     }
 
     /**
@@ -48,16 +57,25 @@ public class Appointment implements Comparable<Appointment> {
         if (value.equals("")) {
             this.value = value;
             this.location = null;
+            this.date = null;
+            this.time = null;
             this.dateTime = null;
         } else {
             String[] appointmentDetails = value.split(" at ");
             String retrievedDateTime = appointmentDetails[0];
             String retrievedLocation = appointmentDetails[1];
-            DateTimeFormatter formatOfRetrievedDateTime = DateTimeFormatter.ofPattern("MMM-dd-yyyy h:mm a")
+            String retrievedDate = retrievedDateTime.split(" ", 2)[0].trim();
+            String retrievedTime = retrievedDateTime.split(" ", 2)[1].trim();
+
+            DateTimeFormatter formatOfRetrievedDate = DateTimeFormatter.ofPattern("MMM-dd-yyyy")
+                .withLocale(Locale.ENGLISH);
+            DateTimeFormatter formatOfRetrievedTime = DateTimeFormatter.ofPattern("h:mm a")
                 .withLocale(Locale.ENGLISH);
             this.value = value;
             this.location = retrievedLocation;
-            this.dateTime = LocalDateTime.parse(retrievedDateTime, formatOfRetrievedDateTime);
+            this.date = LocalDate.parse(retrievedDate, formatOfRetrievedDate);
+            this.time = LocalTime.parse(retrievedTime, formatOfRetrievedTime);
+            this.dateTime = date.atTime(time);
         }
     }
 
@@ -67,8 +85,18 @@ public class Appointment implements Comparable<Appointment> {
      */
     public Appointment() {
         this.value = "";
-        this.dateTime = null;
+        this.date = null;
+        this.time = null;
         this.location = null;
+        this.dateTime = null;
+    }
+
+    public LocalDate getDate() {
+        return this.date;
+    }
+
+    public LocalTime getTime() {
+        return this.time;
     }
 
     public LocalDateTime getDateTime() {
@@ -82,14 +110,18 @@ public class Appointment implements Comparable<Appointment> {
     /**
      * Formats the LocalDateTime to String representation in format of "MMM-dd-yyyy h:mm a"
      * to be reflected in GUI and for storage.
-     * @param dateTime in LocalDateTime.
+     * @param date in LocalDate.
+     * @param time in LocalTime.
      * @return String representation of dateTime in "MMM-dd-yyyy h:mm a".
      */
-    private String formatDateTime(LocalDateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-dd-yyyy h:mm a")
+    private String formatDateTime(LocalDate date, LocalTime time) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM-dd-yyyy")
             .withLocale(Locale.ENGLISH);
-        String formattedDateTime = dateTime.format(formatter);
-        return formattedDateTime;
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("h:mm a")
+            .withLocale(Locale.ENGLISH);
+        String formattedDate = date.format(dateFormatter);
+        String formattedTime = time.format(timeFormatter);
+        return formattedDate + " " + formattedTime;
     }
 
     /**
@@ -102,7 +134,7 @@ public class Appointment implements Comparable<Appointment> {
     }
 
     /**
-     * Compares appointment objects based on their dateTime attribute.
+     * Compares appointment objects based on their date and time attributes.
      * @param other appointment to be compared with.
      * @return Value signifying in the difference between the comparing attribute.
      */
