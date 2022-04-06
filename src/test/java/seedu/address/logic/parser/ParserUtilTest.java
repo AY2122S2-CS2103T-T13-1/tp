@@ -226,6 +226,7 @@ public class ParserUtilTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate expectedLocalDate = LocalDate.parse("23-03-2022", formatter);
         assertEquals(ParserUtil.parseAppointmentDate("23-03-2022 12:00"), expectedLocalDate);
+        // invalid date
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("0-03-2022 12:00"));
         // missing date or time
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022"));
@@ -237,6 +238,7 @@ public class ParserUtilTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime expectedLocalTime = LocalTime.parse("12:00", formatter);
         assertEquals(ParserUtil.parseAppointmentTime("23-03-2022 12:00"), expectedLocalTime);
+        // invalid time
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022 0:00"));
         // missing date or time
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022"));
