@@ -222,6 +222,28 @@ public class ParserUtilTest {
     }
 
     @Test
+    public void parseAppDateTime_returnsLocalDate() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate expectedLocalDate = LocalDate.parse("23-03-2022", formatter);
+        assertEquals(ParserUtil.parseAppointmentDate("23-03-2022 12:00"), expectedLocalDate);
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("0-03-2022 12:00"));
+        // missing date or time
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("00:00"));
+    }
+
+    @Test
+    public void parseAppDateTime_returnsLocalTime() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        LocalTime expectedLocalTime = LocalTime.parse("12:00", formatter);
+        assertEquals(ParserUtil.parseAppointmentTime("23-03-2022 12:00"), expectedLocalTime);
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022 0:00"));
+        // missing date or time
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("00:00"));
+    }
+
+    @Test
     public void parsePickUpTime_returnsLocalTime() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         LocalTime expectedLocalTime = LocalTime.parse("09:00", formatter);
