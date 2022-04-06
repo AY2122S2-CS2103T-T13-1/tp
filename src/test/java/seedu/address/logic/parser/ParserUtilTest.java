@@ -223,14 +223,16 @@ public class ParserUtilTest {
 
     @Test
     public void parseAppDateTime_returnsLocalDate() throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu");
         LocalDate expectedLocalDate = LocalDate.parse("23-03-2022", formatter);
         assertEquals(ParserUtil.parseAppointmentDate("23-03-2022 12:00"), expectedLocalDate);
         // invalid date
         assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("0-03-2022 12:00"));
+        // leap year
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("30-02-2024 12:00"));
         // missing date or time
-        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("23-03-2022"));
-        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentTime("00:00"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("23-03-2022"));
+        assertThrows(ParseException.class, () -> ParserUtil.parseAppointmentDate("00:00"));
     }
 
     @Test

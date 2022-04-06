@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -134,7 +135,7 @@ public class ParserUtil {
      * Parses a {@code String dateTime} into an {@code LocalDate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @param dateTime Date in String format of dd-MM-yyyy HH:mm.
+     * @param dateTime Datetime in String format of dd-MM-yyyy HH:mm.
      * @return Parsed LocalDate representation of input.
      * @throws ParseException if the given {@code date} is invalid.
      */
@@ -143,13 +144,14 @@ public class ParserUtil {
         String trimmedDateTime = dateTime.trim();
         String trimmedDate;
 
-        try {
-            trimmedDate = trimmedDateTime.split(" ")[0];
-        } catch (Exception e) {
+        String[] trimmedDateTimeArray = trimmedDateTime.split(" ");
+        if (trimmedDateTimeArray.length < 2) {
             throw new ParseException("Missing date/time!");
         }
+        trimmedDate = trimmedDateTimeArray[0];
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter dateFormat =
+                DateTimeFormatter.ofPattern("dd-MM-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
         try {
             return LocalDate.parse(trimmedDate, dateFormat);
@@ -163,7 +165,7 @@ public class ParserUtil {
      * Parses a {@code String dateTime} into an {@code LocalTime}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @param dateTime Date in String format of dd-MM-yyyy HH:mm.
+     * @param dateTime Datetime in String format of dd-MM-yyyy HH:mm.
      * @return Parsed LocalTime representation of input.
      * @throws ParseException if the given {@code time} is invalid.
      */
@@ -172,12 +174,12 @@ public class ParserUtil {
         String trimmedDateTime = dateTime.trim();
         String trimmedTime;
 
-        try {
-            trimmedTime = trimmedDateTime.split(" ")[1];
-        } catch (Exception e) {
+        String[] trimmedDateTimeArray = trimmedDateTime.split(" ");
+        if (trimmedDateTimeArray.length < 2) {
             throw new ParseException("Missing date/time!");
         }
 
+        trimmedTime = trimmedDateTimeArray[1];
 
         DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm");
 
