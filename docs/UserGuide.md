@@ -487,7 +487,7 @@ Format: `undo`
 <div markdown="block" class="alert alert-warning">
 
 **:warning: Note about undo**<br>
-* You will not be able to undo `clear`, `exit`, `find`, `help` and `list` commands.
+* You will not be able to undo `clear`, `exit`, `find`, `filter`, `help` and `list` commands.
 
 </div>
 

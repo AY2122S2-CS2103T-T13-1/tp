@@ -34,7 +34,6 @@ public class VersionedPetBook extends PetBook {
      * @return The previous state of the pet book.
      */
     public ReadOnlyPetBook undo() throws Exception {
-        System.out.println(petBookStateList.size());
         if (petBookStateList.size() <= 1) {
             throw new Exception("No commands to undo");
         }
