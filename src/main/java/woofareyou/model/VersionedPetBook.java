@@ -14,16 +14,14 @@ public class VersionedPetBook extends PetBook {
 
     public VersionedPetBook() {}
 
-    /**
-     * Creates a VersionedPetBook using the Pets in the {@code toBeCopied}
+    /** Creates a VersionedPetBook using the Pets in the {@code toBeCopied}
      */
     public VersionedPetBook(ReadOnlyPetBook toBeCopied) {
         this();
         petBookStateList.add(new PetBook(toBeCopied));
     }
 
-    /**
-     * Commits a new petBook state to the petBookStateList
+    /** Commits a new petBook state to the petBookStateList
      * @param currentPetBookState current pet book state
      */
     public void commit(ReadOnlyPetBook currentPetBookState) {
@@ -36,7 +34,8 @@ public class VersionedPetBook extends PetBook {
      * @return The previous state of the pet book.
      */
     public ReadOnlyPetBook undo() throws Exception {
-        if (petBookStateList.size() <= 0) {
+        System.out.println(petBookStateList.size());
+        if (petBookStateList.size() <= 1) {
             throw new Exception("No commands to undo");
         }
 
